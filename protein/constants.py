@@ -37,8 +37,8 @@ MAX_EXTENT = 1.0
 STARTING_NM_SEED = 324324
 # When interpolating, which
 DEFAULT_NMODES_STEP = 0.5
-DEFAULT_REC_NM_FILE = "../data1/lightdock_rec.nm"
-DEFAULT_LIG_NM_FILE = "../data1/lightdock_lig.nm"
+DEFAULT_REC_NM_FILE = "../data1/feshdock_rec.nm"
+DEFAULT_LIG_NM_FILE = "../data1/feshdock_lig.nm"
 
 """Scoring function constants"""
 # LightDock default scoring function if none is specified
@@ -78,15 +78,15 @@ RANKING_FILE = "solutions.list"
 RANKING_BY_RMSD_FILE = "rank_by_rmsd.list"
 RANKING_BY_LUCIFERIN_FILE = "rank_by_luciferin.list"
 RANKING_BY_SCORING_FILE = "rank_by_scoring.list"
-DEFAULT_LIGHTDOCK_PREFIX = "lightdock_%s"
+DEFAULT_LIGHTDOCK_PREFIX = "feshdock_%s"
 EVALUATION_FILE = "evaluation.list"
 SCORING_FILE = "scoring.list"
-LIGHTDOCK_PDB_FILE = "lightdock_%s.pdb"
+LIGHTDOCK_PDB_FILE = "feshdock_%s.pdb"
 CLUSTER_DEFAULT_NAME = "cluster"
 CLUSTER_REPRESENTATIVES_FILE = CLUSTER_DEFAULT_NAME + DEFAULT_REPRESENTATIVES_EXTENSION
 # Each independent simulation generates a new file:
 DEFAULT_LIGHTDOCK_INFO = "feshdock.info"
-DEFAULT_MASK_FILE = "lightdock_%s_mask" + NUMPY_FILE_SAVE_EXTENSION
+DEFAULT_MASK_FILE = "feshdock_%s_mask" + NUMPY_FILE_SAVE_EXTENSION
 
 """Swarm calculations"""
 # Total SASA will be divided by this number

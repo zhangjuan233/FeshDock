@@ -3,6 +3,8 @@
 import sys
 import argparse
 import os
+import sys
+sys.path.append("/home/ck/pycharm_projects/Feshdock-master2/")
 import numpy as np
 from pathlib import Path
 from feshdock.util.logger import LoggingManager
@@ -27,7 +29,7 @@ import  re
 log = LoggingManager.get_logger("generate_conformations")
 
 
-def parse_output_file(lightdock_output, num_anm_rec, num_anm_lig):
+def parse_output_file(feshdock_output, num_anm_rec, num_anm_lig):
     translations = []
     rotations = []
     receptor_ids = []
@@ -35,7 +37,7 @@ def parse_output_file(lightdock_output, num_anm_rec, num_anm_lig):
     rec_extents = []
     lig_extents = []
 
-    data_file = open(lightdock_output)
+    data_file = open(feshdock_output)
     lines = data_file.readlines()
     data_file.close()
 
@@ -65,7 +67,7 @@ def parse_output_file(lightdock_output, num_anm_rec, num_anm_lig):
     return translations, rotations, receptor_ids, ligand_ids, rec_extents, lig_extents
 
 
-def parse_initial_file(lightdock_output, num_anm_rec, num_anm_lig):
+def parse_initial_file(feshdock_output, num_anm_rec, num_anm_lig):
     translations = []
     rotations = []
     receptor_ids = []
@@ -73,7 +75,7 @@ def parse_initial_file(lightdock_output, num_anm_rec, num_anm_lig):
     rec_extents = []
     lig_extents = []
 
-    data_file = open(lightdock_output)
+    data_file = open(feshdock_output)
     lines = data_file.readlines()
     data_file.close()
 
@@ -103,6 +105,7 @@ def parse_initial_file(lightdock_output, num_anm_rec, num_anm_lig):
 
 
 if __name__ == "__main__":
+    os.chdir('/home/ck/pycharm_projects/Feshdock-master2/bin')
     parser = argparse.ArgumentParser(prog="conformations")
     # Receptor
     parser.add_argument(
@@ -118,7 +121,7 @@ if __name__ == "__main__":
         type=valid_file,
         metavar="ligand_structure",
     )
-    # Lightdock output file
+    # feshdock output file
     parser.add_argument(
         "feshdock_output",
         help="feshdock output file",
@@ -187,7 +190,7 @@ if __name__ == "__main__":
     ligand = Complex.from_structures(structures)
 
     # Output file
-    output_file_path = Path(args.lightdock_output)
+    output_file_path = Path(args.feshdock_output)
     if output_file_path.suffix == ".dat":
         (
             translations,
@@ -196,7 +199,7 @@ if __name__ == "__main__":
             ligand_ids,
             rec_extents,
             lig_extents,
-        ) = parse_initial_file(args.lightdock_output, num_anm_rec, num_anm_lig)
+        ) = parse_initial_file(args.feshdock_output, num_anm_rec, num_anm_lig)
     else:
         (
             translations,
@@ -205,7 +208,7 @@ if __name__ == "__main__":
             ligand_ids,
             rec_extents,
             lig_extents,
-        ) = parse_output_file(args.lightdock_output, num_anm_rec, num_anm_lig)
+        ) = parse_output_file(args.feshdock_output, num_anm_rec, num_anm_lig)
 
     found_conformations = len(translations)
     num_conformations = args.glowworms
@@ -218,7 +221,7 @@ if __name__ == "__main__":
         num_conformations = found_conformations
 
     # Destination path is the same as the feshdock output
-    destination_path = os.path.dirname(args.lightdock_output)
+    destination_path = os.path.dirname(args.feshdock_output)
     destination_path=os.path.join(destination_path,'predict_pdbs')
     os.mkdir(destination_path)
 

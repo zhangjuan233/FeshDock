@@ -10,7 +10,7 @@ from functools import partial
 if __name__ == '__main__':
 
     cluster_predict_path='../data1/final_pdbs/'
-    native_path='../data1/'  #pdb数据
+    native_path='../data1/'  #pdb
     list=['1A2K']
     for pdbname in list:
         path_data1 = 'data1/'
@@ -19,7 +19,7 @@ if __name__ == '__main__':
         comd_init = ''
         num_cpus=10
         num_generate = 100
-        num_step = 10
+        num_step = 100
 
         rec_pdb = pdbname + '_r_u.pdb'
         lig_pdb = pdbname + '_l_u.pdb'

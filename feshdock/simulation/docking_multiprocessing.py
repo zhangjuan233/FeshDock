@@ -46,7 +46,7 @@ def  getchain(pdb_file):
 
 def set_gso(
     number_of_glowworms,
-    adapters,#将计算模型与评分函数之间的数据映射
+    adapters,
     scoring_functions,
     initial_positions,
     seed,
@@ -61,7 +61,7 @@ def set_gso(
 ):
     """Creates a feshdock GSO simulation object"""
 
-    bounding_box = get_default_box(use_anm, anm_rec, anm_lig)#获取默认边界框
+    bounding_box = get_default_box(use_anm, anm_rec, anm_lig)
 
     random_number_generator = MTGenerator(seed)
     if configuration_file:
@@ -71,7 +71,7 @@ def set_gso(
     builder = LightdockGSOBuilder()
     if not use_anm:
         anm_rec = anm_lig = 0
-    gso = builder.create_from_file(#创建LightDock GSO对象，并将上述参数传递给该函数。
+    gso = builder.create_from_file(
         number_of_glowworms,
         random_number_generator,
         gso_parameters,
@@ -100,7 +100,7 @@ def set_scoring_function(parser, receptor, ligand):
         if parser.args.scoring_function:
             functions = {parser.args.scoring_function: "1.0"}
         else:
-            functions = {DEFAULT_SCORING_FUNCTION: "1.0"}#fastdfire 默认
+            functions = {DEFAULT_SCORING_FUNCTION: "1.0"}
 
     for scoring_function, weight in functions.items():
         log.info("Loading scoring function...")
@@ -109,21 +109,21 @@ def set_scoring_function(parser, receptor, ligand):
 
         log.info("Using %s scoring function" % module.DefinedScoringFunction.__name__)
 
-        # 从加载的模块中获取定义的评分函数和模型适配器
+
         CurrentScoringFunction = getattr(module, "DefinedScoringFunction")
         CurrentModelAdapter = getattr(module, "DefinedModelAdapter")
         receptor_restraints = ligand_restraints = None
         try:
-            receptor_restraints = parser.args.receptor_restraints["active"]#none
+            receptor_restraints = parser.args.receptor_restraints["active"]
         except:
             pass
         try:
             ligand_restraints = parser.args.ligand_restraints["active"]
         except:
             pass
-        adapter = CurrentModelAdapter(#将给定的 Complex 对象改编为适合此 ScoringFunction 对象的 DockingModel
+        adapter = CurrentModelAdapter(
             receptor, ligand, receptor_restraints, ligand_restraints
-        )#计算参考点  残基与原子在atom_res_trans对应的值
+        )
         scoring_function = CurrentScoringFunction(weight)
         adapters.append(adapter)
         scoring_functions.append(scoring_function)
@@ -142,8 +142,8 @@ def prepare_gso_tasks(parser, adapters, scoring_functions, starting_points_files
     else:
         swarm_ids = list(range(parser.args.swarms))#[0, 1, 2]
 
-    for id_swarm in swarm_ids:#每个群创建一个 GSO 对象，独立模拟
-        gso = set_gso(#生成GSO对象
+    for id_swarm in swarm_ids:
+        gso = set_gso(
             parser.args.glowworms,
             adapters,
             scoring_functions,
@@ -159,7 +159,7 @@ def prepare_gso_tasks(parser, adapters, scoring_functions, starting_points_files
             parser.args.local_minimization,
         )
         saving_path = "%s%d" % (DEFAULT_SWARM_FOLDER, id_swarm)
-        task = GSOClusterTask(id_swarm, gso, parser.args.steps, PATH_DATA1+saving_path)#要由调度程序执行的单个任务
+        task = GSOClusterTask(id_swarm, gso, parser.args.steps, PATH_DATA1+saving_path)
         tasks.append(task)
     return tasks
 
@@ -203,13 +203,7 @@ def run_simulation(parser):
         receptor.move_to_origin()
         ligand.move_to_origin()
 
-        # # -----------记录移动的受体配体------------
-        # rec_chain = getchain(parsed_lightdock_receptor)
-        # lig_chain = getchain(parsed_lightdock_ligand)
-        # with open('../data1/record_lightdock.txt', 'a') as f:
-        #     f.write(parsed_lightdock_receptor + '\n' + parsed_lightdock_ligand + '\n')
-        #     f.write(rec_chain + '\t' + lig_chain + '\n')
-        # # ----------------------------------------
+
         if args.use_anm:
             try:
                 receptor.n_modes = read_nmodes(
@@ -226,11 +220,11 @@ def run_simulation(parser):
                 log.warning("No ANM found for ligand molecule")
                 ligand.n_modes = None
 
-        starting_points_files = load_starting_positions(#每个群的萤火虫起始位置文件
+        starting_points_files = load_starting_positions(
             args.swarms, args.glowworms, args.use_anm, args.anm_rec, args.anm_lig
         )
 
-        scoring_functions, adapters = set_scoring_function(parser, receptor, ligand)#设置评分函数和适配器
+        scoring_functions, adapters = set_scoring_function(parser, receptor, ligand)
 
         # Check if scoring functions are compatible with ANM if activated
         if args.use_anm:
