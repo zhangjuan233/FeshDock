@@ -4,7 +4,6 @@ import sys
 import argparse
 import os
 import sys
-sys.path.append("/home/ck/pycharm_projects/Feshdock-master2/")
 import numpy as np
 from pathlib import Path
 from feshdock.util.logger import LoggingManager
@@ -105,7 +104,6 @@ def parse_initial_file(feshdock_output, num_anm_rec, num_anm_lig):
 
 
 if __name__ == "__main__":
-    os.chdir('/home/ck/pycharm_projects/Feshdock-master2/bin')
     parser = argparse.ArgumentParser(prog="conformations")
     # Receptor
     parser.add_argument(
