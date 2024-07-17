@@ -5,39 +5,12 @@ import concurrent.futures
 import pandas as pd
 from functools import partial
 
-def  getchain(pdb_file):
-    rec_stru = prody.parsePDB(pdb_file)
-    rec_id = ''
-    chain_id = rec_stru.getChids()
-    ids=''.join(dict.fromkeys(chain_id))
-    rec_id=ids
-    return rec_id
-
-def change_str(str):
-    temp = []
-    for item in str:
-        temp.append(item)
-    new_temp = ' '.join(temp)
-    return new_temp
-
-def prepare(rec_pdb,lig_pdb):
-    comd0=''
-    rec_chain = getchain(rec_pdb)
-    lig_chain = getchain(lig_pdb)
-    if len(rec_chain) > 1 or len(lig_chain) > 1:
-        if len(rec_chain) > 1:
-            rec_chain = change_str(rec_chain)
-        if len(lig_chain) > 1:
-            lig_chain = change_str(lig_chain)
-        comd0 = f'-model_chain1 {rec_chain} -model_chain2 {lig_chain} -native_chain1 {rec_chain} -native_chain2 {lig_chain}'
-    return comd0
-
 
 
 if __name__ == '__main__':
 
-    cluster_predict_path='/home/ck/pycharm_projects/Feshdock-master2/data1/final_pdbs/'
-    native_path='/home/ck/pycharm_projects/Feshdock-master2/data1/'  #pdb数据
+    cluster_predict_path='../data1/final_pdbs/'
+    native_path='../data1/'  #pdb数据
     list=['1A2K']
     for pdbname in list:
         path_data1 = 'data1/'
